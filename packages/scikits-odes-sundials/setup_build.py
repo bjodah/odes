@@ -126,14 +126,15 @@ def get_sundials_config_pxi(include_dirs, dist):
         info("Failed to find sundials index type, falling back to int64...")
 
     # Check for blas/lapack
-    if check_macro_def(
-        config_cmd,
-        "SUNDIALS_BLAS_LAPACK", headers=[SUNDIALS_CONFIG_H],
-        include_dirs=include_dirs
-    ):
-        has_lapack = True
-    else:
-        has_lapack = False
+    has_lapack = False
+    for macro_name in ["SUNDIALS_BLAS_LAPACK", "SUNDIALS_SUNLINSOL_LAPACKBAND"]:
+        if check_macro_def(
+            config_cmd,
+            macro_name, headers=[SUNDIALS_CONFIG_H],
+            include_dirs=include_dirs
+        ):
+            has_lapack = True
+            break
 
     cfg = dict(
         float_type = SUNDIALS_FLOAT_TYPE,
@@ -348,4 +349,3 @@ class build_ext(_build_ext):
             },
         )
         _build_ext.run(self) # actually do the build
-

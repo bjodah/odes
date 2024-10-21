@@ -39,7 +39,7 @@ cdef class IDA_JacRhsFunction:
 cdef class IDA_WrapJacRhsFunction(IDA_JacRhsFunction):
     cdef object _jacfn
     cdef int with_userdata
-    cpdef set_jacfn(self, object jacfn) 
+    cpdef set_jacfn(self, object jacfn)
 
 cdef class IDA_PrecSetupFunction:
     cpdef int evaluate(self, DTYPE_t t,
@@ -64,7 +64,7 @@ cdef class IDA_PrecSolveFunction:
                        DTYPE_t cj,
                        DTYPE_t delta,
                        object userdata = *) except? -1
-                           
+
 cdef class IDA_WrapPrecSolveFunction(IDA_PrecSolveFunction):
     cdef object _prec_solvefn
     cdef int with_userdata
@@ -114,7 +114,7 @@ cdef class IDA_ContinuationFunction:
                        np.ndarray[DTYPE_t, ndim=1] ydot,
                        IDA solver)
 
-cdef int _res(sunrealtype tt, N_Vector yy, N_Vector yp, N_Vector rr, void *self_obj)
+cdef int _res(sunrealtype tt, N_Vector yy, N_Vector yp, N_Vector rr, void *self_obj) except? -1
 
 cdef class IDA_ErrHandler:
     cpdef evaluate(self,

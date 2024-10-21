@@ -11,7 +11,7 @@ cdef extern from "sunlinsol/sunlinsol_dense.h":
         long int last_flag
 
     ctypedef _SUNLinearSolverContent_Dense *SUNLinearSolverContent_Dense
-    
+
     SUNLinearSolver SUNLinSol_Dense(N_Vector y, SUNMatrix A, SUNContext sunctx)
     SUNLinearSolver SUNDenseLinearSolver(N_Vector y, SUNMatrix A) #deprecated
 
@@ -63,7 +63,7 @@ IF SUNDIALS_BLAS_LAPACK:
         ctypedef _SUNLinearSolverContent_LapackDense *SUNLinearSolverContent_LapackDense
 
         SUNLinearSolver SUNLinSol_LapackDense(N_Vector y, SUNMatrix A, SUNContext sunctx)
-        SUNLinearSolver SUNLapackDense(N_Vector y, SUNMatrix A) #deprecated
+        #SUNLinearSolver SUNLapackDense(N_Vector y, SUNMatrix A) #deprecated
 
         SUNLinearSolver_Type SUNLinSolGetType_LapackDense(SUNLinearSolver S)
         SUNLinearSolver_ID SUNLinSolGetID_LapackDense(SUNLinearSolver S)
@@ -87,7 +87,7 @@ IF SUNDIALS_BLAS_LAPACK:
         ctypedef _SUNLinearSolverContent_LapackBand *SUNLinearSolverContent_LapackBand
 
         SUNLinearSolver SUNLinSol_LapackBand(N_Vector y, SUNMatrix A, SUNContext sunctx)
-        SUNLinearSolver SUNLapackBand(N_Vector y, SUNMatrix A) # deprecated
+        #SUNLinearSolver SUNLapackBand(N_Vector y, SUNMatrix A) # deprecated
 
         SUNLinearSolver_Type SUNLinSolGetType_LapackBand(SUNLinearSolver S)
         SUNLinearSolver_ID SUNLinSolGetID_LapackBand(SUNLinearSolver S)
@@ -310,7 +310,7 @@ cdef extern from "sunlinsol/sunlinsol_spgmr.h":
     int SUNLinSol_SPGMRSetPrecType(SUNLinearSolver S, int pretype)
     int SUNLinSol_SPGMRSetGSType(SUNLinearSolver S, int gstype)
     int SUNLinSol_SPGMRSetMaxRestarts(SUNLinearSolver S, int maxrs)
-                                                  
+
     SUNLinearSolver SUNSPGMR(N_Vector y, int pretype, int maxl) # deprecated
     int SUNSPGMRSetPrecType(SUNLinearSolver S, int pretype) # deprecated
     int SUNSPGMRSetGSType(SUNLinearSolver S, int gstype) # deprecated
@@ -424,4 +424,3 @@ cdef extern from "sunlinsol/sunlinsol_sptfqmr.h":
 #    int SUNLinSolSpace_SuperLUMT(SUNLinearSolver S, long int *lenrwLS,
 #                                 long int *leniwLS)
 #    int SUNLinSolFree_SuperLUMT(SUNLinearSolver S)
-

@@ -166,8 +166,7 @@ cdef class IDA_WrapRhsFunction(IDA_RhsFunction):
         return user_flag
 
 
-cdef int _res(sunrealtype tt, N_Vector yy, N_Vector yp,
-              N_Vector rr, void *auxiliary_data):
+cdef int _res(sunrealtype tt, N_Vector yy, N_Vector yp, N_Vector rr, void *auxiliary_data) except? -1:
     """ function with the signature of IDAResFn """
     cdef np.ndarray[DTYPE_t, ndim=1] residual_tmp, yy_tmp, yp_tmp
 
@@ -235,7 +234,7 @@ cdef class IDA_WrapRootFunction(IDA_RootFunction):
         return user_flag
 
 cdef int _rootfn(sunrealtype t, N_Vector yy, N_Vector yp,
-                 sunrealtype *gout, void *auxiliary_data):
+                 sunrealtype *gout, void *auxiliary_data) except? -1:
     """ function with the signature of IDARootFn """
 
     aux_data = <IDA_data> auxiliary_data
@@ -1693,7 +1692,7 @@ cdef class IDA:
             if SUNDIALS_BLAS_LAPACK:
                 if linsolver == 'lapackdense':
                     A = SUNDenseMatrix(N, N, self.sunctx)
-                    LS = SUNLapackDense(self.y0, A)
+                    LS = SUNLinSol_LapackDense(self.y0, A, self.sunctx)
                     # check if memory was allocated
                     if (A == NULL or LS == NULL):
                         raise ValueError('Could not allocate matrix or linear solver')
@@ -1709,7 +1708,7 @@ cdef class IDA:
                                          .format(flag))
                 elif linsolver == 'lapackband':
                     A = SUNBandMatrix(N, <int> opts['uband'], <int> opts['lband'], self.sunctx);
-                    LS = SUNLapackBand(self.y0, A)
+                    LS = SUNLinSol_LapackBand(self.y0, A, self.sunctx)
                     if (A == NULL or LS == NULL):
                         raise ValueError('Could not allocate matrix or linear solver')
                     flag = IDASetLinearSolver(ida_mem, LS, A)

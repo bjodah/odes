@@ -1,7 +1,7 @@
 from libc.stdio cimport FILE
 
 cdef extern from "sundials/sundials_types.h":
-    ctypedef float sunrealtype
+    ctypedef double sunrealtype
     ctypedef unsigned int sunbooleantype
     ctypedef long sunindextype
 
@@ -19,14 +19,14 @@ cdef extern from "sundials/sundials_context.h":
     int SUNContext_Free(SUNContext* ctx)
 
 cdef extern from "sundials/sundials_version.h":
-    
+
     #Fill a string with SUNDIALS version information */
     int SUNDIALSGetVersion(char *version, int len)
 
     # Fills integers with the major, minor, and patch release version numbers and a string with the release label.
     int SUNDIALSGetVersionNumber(int *major, int *minor, int *patch,
                                  char *label, int len);
-                                             
+
 cdef extern from "sundials/sundials_nvector.h":
     cdef enum N_Vector_ID:
         SUNDIALS_NVEC_SERIAL,
@@ -84,19 +84,19 @@ cdef extern from "sundials/sundials_nvector.h":
         int (*nvlinearcombination)(int, sunrealtype*, N_Vector*, N_Vector)
         int (*nvscaleaddmulti)(int, sunrealtype*, N_Vector, N_Vector*, N_Vector*)
         int (*nvdotprodmulti)(int, N_Vector, N_Vector*, sunrealtype*)
-    
-        int (*nvlinearsumvectorarray)(int, sunrealtype, N_Vector*, sunrealtype, 
+
+        int (*nvlinearsumvectorarray)(int, sunrealtype, N_Vector*, sunrealtype,
                                       N_Vector*, N_Vector*)
         int (*nvscalevectorarray)(int, sunrealtype*, N_Vector*, N_Vector*)
         int (*nvconstvectorarray)(int, sunrealtype, N_Vector*)
         int (*nvwrmsnormvectorarray)(int, N_Vector*, N_Vector*, sunrealtype*)
         int (*nvwrmsnormmaskvectorarray)(int, N_Vector*, N_Vector*, N_Vector,
                                          sunrealtype*)
-        int (*nvscaleaddmultivectorarray)(int, int, sunrealtype*, N_Vector*, 
+        int (*nvscaleaddmultivectorarray)(int, int, sunrealtype*, N_Vector*,
                                           N_Vector**, N_Vector**)
         int (*nvlinearcombinationvectorarray)(int, int, sunrealtype*, N_Vector**,
                                               N_Vector*)
-    
+
         sunrealtype (*nvdotprodlocal)(N_Vector, N_Vector)
         sunrealtype (*nvmaxnormlocal)(N_Vector)
         sunrealtype (*nvminlocal)(N_Vector)
@@ -146,7 +146,7 @@ cdef extern from "sundials/sundials_nvector.h":
     sunbooleantype N_VInvTest(N_Vector x, N_Vector z)
     sunbooleantype N_VConstrMask(N_Vector c, N_Vector x, N_Vector m)
     sunrealtype N_VMinQuotient(N_Vector num, N_Vector denom)
-    
+
     # /* OPTIONAL fused vector operations */
     int N_VLinearCombination(int nvec, sunrealtype* c, N_Vector* X, N_Vector z)
 
@@ -163,16 +163,16 @@ cdef extern from "sundials/sundials_nvector.h":
 
     int N_VConstVectorArray(int nvec, sunrealtype c, N_Vector* Z)
 
-    int N_VWrmsNormVectorArray(int nvec, N_Vector* X, N_Vector* W, 
+    int N_VWrmsNormVectorArray(int nvec, N_Vector* X, N_Vector* W,
                                sunrealtype* nrm)
 
-    int N_VWrmsNormMaskVectorArray(int nvec, N_Vector* X, N_Vector* W, 
+    int N_VWrmsNormMaskVectorArray(int nvec, N_Vector* X, N_Vector* W,
                                    N_Vector id, sunrealtype* nrm)
 
-    int N_VScaleAddMultiVectorArray(int nvec, int nsum, sunrealtype* a, 
+    int N_VScaleAddMultiVectorArray(int nvec, int nsum, sunrealtype* a,
                                     N_Vector* X, N_Vector** Y, N_Vector** Z)
 
-    int N_VLinearCombinationVectorArray(int nvec, int nsum, sunrealtype* c, 
+    int N_VLinearCombinationVectorArray(int nvec, int nsum, sunrealtype* c,
                                         N_Vector** X, N_Vector* Z)
 
     #/* OPTIONAL local reduction kernels (no parallel communication) */
@@ -293,7 +293,7 @@ cdef extern from "sundials/sundials_linearsolver.h":
         SUNLINEARSOLVER_SUPERLUMT,
         SUNLINEARSOLVER_CUSOLVERSP_BATCHQR,
         SUNLINEARSOLVER_CUSTOM
-        
+
     struct _generic_SUNLinearSolver_Ops:
         pass
     struct _generic_SUNLinearSolver:
@@ -350,7 +350,7 @@ cdef extern from "sundials/sundials_linearsolver.h":
     int SUNLinSolFree(SUNLinearSolver S)
 
     enum: SUNLS_SUCCESS            #   0   /* successful/converged          */
-    
+
     enum: SUNLS_MEM_NULL           # -801   /* mem argument is NULL          */
     enum: SUNLS_ILL_INPUT          # -802   /* illegal function input        */
     enum: SUNLS_MEM_FAIL           # -803   /* failed memory access          */
@@ -470,7 +470,7 @@ cdef extern from "sundials/sundials_nonlinearsolver.h":
     ctypedef int (*SUNNonlinSolLSolveFn)(N_Vector b, void* mem)
     # rename reserved del into del_t for python!
     ctypedef int (*SUNNonlinSolConvTestFn)(SUNNonlinearSolver NLS, N_Vector y,
-                                          N_Vector del_t, sunrealtype tol, 
+                                          N_Vector del_t, sunrealtype tol,
                                           N_Vector ewt, void* mem)
 
     cdef enum SUNNonlinearSolver_Type:
@@ -527,9 +527,9 @@ cdef extern from "sundials/sundials_nonlinearsolver.h":
     enum: SUN_NLS_SUCCESS         #  0
     enum: SUN_NLS_CONTINUE        # +901
     enum: SUN_NLS_CONV_RECVR      # +902
-    
+
     enum: SUN_NLS_MEM_NULL        # -901
     enum: SUN_NLS_MEM_FAIL        # -902
     enum: SUN_NLS_ILL_INPUT       # -903
     enum: SUN_NLS_VECTOROP_ERR    # -904
-    enum: SUN_NLS_EXT_FAIL        # -905 
+    enum: SUN_NLS_EXT_FAIL        # -905
