@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools<=72.1.0"] # https://github.com/pypa/setuptools/issues/4748#issuecomment-2592811053
 
 [project]
 name = 'scikits-odes'

@@ -1,5 +1,6 @@
 [build-system]
-requires = ["setuptools", "numpy", "cython<3", "pkgconfig"]
+requires = ["setuptools<=72.1.0", #https://github.com/pypa/setuptools/issues/4748#issuecomment-2592811053
+"numpy", "cython<3", "pkgconfig"]
 
 [project]
 name = 'scikits-odes-sundials'
